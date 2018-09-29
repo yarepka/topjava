@@ -43,6 +43,8 @@ public class UserMealsUtil {
     public static List<UserMealWithExceed> getFilteredWithExceeded(
             List<UserMeal> mealList, LocalTime startTime, LocalTime endTime, int caloriesPerDay) {
 
+        long currentTimeMillis = System.currentTimeMillis();
+
         List<UserMealWithExceed> userMealsWithExceed = new ArrayList<>();
 
         // группируем по дате (только те эл-ты поле dateTime которых удовлетворяет интервалу [startTime;endTime])
@@ -64,10 +66,12 @@ public class UserMealsUtil {
                                 new UserMealWithExceed(
                                         u.getDateTime(),
                                         u.getDescription(),
-                                        caloriesSummary,
+                                        u.getCalories(),
                                         isExceed))
                     );
         });
+
+        System.out.println("Working: " + (System.currentTimeMillis() - currentTimeMillis));
 
         return userMealsWithExceed;
     }
